@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dark_purple">#1A0B2E</color>
+    <color name="purple_accent">#9F02FF</color>
+    <color name="bright_purple">#A020F0</color>
+    <color name="input_field_bg">#250A40</color>
+    <color name="purple_dark">#0C0517</color>
+    <color name="orange">#FF6905</color>
+    <color name="white">#FFFFFF</color>
+    <color name="light_gray">#AAAAAA</color>
+    <color name="hint_color">#80FFFFFF</color>
+    <color name="success_green">#4CAF50</color>
+
+    <!-- Required Android default colors -->
+    <color name="purple_200">#BB86FC</color>
+    <color name="purple_500">#6200EE</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="teal_200">#03DAC5</color>
+    <color name="teal_700">#018786</color>
+    <color name="black">#000000</color>
+</resources>

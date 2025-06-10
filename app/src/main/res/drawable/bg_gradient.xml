@@ -1,0 +1,7 @@
+<gradient xmlns:android="http://schemas.android.com/apk/res/android"
+    android:type="radial"
+    android:gradientRadius="500"
+    android:startColor="#4B0082"
+    android:centerColor="#000000"
+    android:endColor="#8B0000"
+    android:angle="270" />
