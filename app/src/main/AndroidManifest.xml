@@ -67,8 +67,7 @@
 
         <activity
             android:name=".GuestOnboardingActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:exported="false" />
     </application>
 
 </manifest>
