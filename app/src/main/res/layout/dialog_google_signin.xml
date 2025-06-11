@@ -23,7 +23,9 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            app:backgroundTint="@color/button_purple"
+            app:cornerRadius="10dp"
             android:id="@+id/continueButton"
             android:layout_width="match_parent"
             android:layout_height="56dp"

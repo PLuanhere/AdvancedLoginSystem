@@ -307,11 +307,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Continue Button -->
-
-    <!-- Already Have Account -->
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/continueButton"
         android:layout_width="0dp"
         android:layout_height="56dp"
@@ -324,7 +320,9 @@
         app:layout_constraintEnd_toEndOf="@+id/passwordRequirements"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/passwordRequirements"
-        app:layout_constraintTop_toBottomOf="@id/passwordRequirements" />
+        app:layout_constraintTop_toBottomOf="@id/passwordRequirements"
+        app:backgroundTint="@color/button_purple"
+        app:cornerRadius="10dp" />
 
     <LinearLayout
         android:id="@+id/loginContainer"
