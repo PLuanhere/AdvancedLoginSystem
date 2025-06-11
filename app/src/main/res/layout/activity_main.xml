@@ -105,13 +105,15 @@
 
     <!-- Continue as Guest ở dưới cùng -->
     <TextView
-        android:id="@+id/guestText"
+        android:id="@+id/continueAsGuestText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Continue as Guest"
-        android:textColor="#FFFFFF"
-        android:textSize="13sp"
-        android:layout_marginBottom="40dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:layout_marginBottom="24dp"
+        android:background="?attr/selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

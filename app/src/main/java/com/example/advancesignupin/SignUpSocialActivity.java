@@ -1,5 +1,6 @@
 package com.example.advancesignupin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -48,10 +49,16 @@ public class SignUpSocialActivity extends AppCompatActivity {
 
         // Set up continue button
         continueButton.setOnClickListener(v -> {
-            // Validate and proceed to next step
+            // Validate username and proceed to verification screen
             if (validateUsername()) {
-                Toast.makeText(SignUpSocialActivity.this, "Continuing to next step...", Toast.LENGTH_SHORT).show();
-                // Add your navigation code here
+                String username = usernameInput.getText().toString().trim();
+                String emailText = emailDisplay.getText().toString().trim();
+
+                // Navigate to verification screen
+                Intent intent = new Intent(SignUpSocialActivity.this, SignUpVerificationActivity.class);
+                intent.putExtra("EMAIL", emailText);
+                intent.putExtra("USERNAME", username);
+                startActivity(intent);
             }
         });
 
@@ -67,8 +74,8 @@ public class SignUpSocialActivity extends AppCompatActivity {
         });
 
         loginLink.setOnClickListener(v -> {
-            Toast.makeText(SignUpSocialActivity.this, "Navigating to login screen", Toast.LENGTH_SHORT).show();
-            // Navigate to login screen
+            Intent intent = new Intent(SignUpSocialActivity.this, LoginActivity.class);
+            startActivity(intent);
             finish();
         });
     }

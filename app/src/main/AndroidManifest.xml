@@ -58,6 +58,16 @@
         <activity
             android:name=".ResetPasswordActivity"
             android:exported="false"/>
+
+        <activity
+            android:name=".GuestLoadingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <activity
+            android:name=".GuestOnboardingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 
 </manifest>
