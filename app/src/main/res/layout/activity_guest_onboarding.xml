@@ -7,6 +7,7 @@
     android:background="#0C0517"
     tools:context=".GuestOnboardingActivity">
 
+    <!-- Use a simple color background instead of an image -->
     <ImageView
         android:id="@+id/backgroundImage"
         android:layout_width="match_parent"
@@ -16,52 +17,58 @@
         android:scaleType="centerCrop"
         android:src="@drawable/background_mesh" />
 
-    <!-- Indicator Dots -->
+    <!-- Indicator Dots with standard shapes -->
     <LinearLayout
         android:id="@+id/indicatorContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="48dp"
         android:orientation="horizontal"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- Use standard shape drawable for indicators -->
         <View
             android:id="@+id/indicator1"
-            android:layout_width="24dp"
+            android:layout_width="30dp"
             android:layout_height="4dp"
             android:layout_marginHorizontal="4dp"
-            android:background="@drawable/indicator_active" />
+            android:background="@android:color/holo_orange_dark" />
 
         <View
             android:id="@+id/indicator2"
-            android:layout_width="24dp"
+            android:layout_width="30dp"
             android:layout_height="4dp"
             android:layout_marginHorizontal="4dp"
-            android:background="@drawable/indicator_inactive" />
+            android:background="@android:color/darker_gray" />
 
         <View
             android:id="@+id/indicator3"
-            android:layout_width="24dp"
+            android:layout_width="30dp"
             android:layout_height="4dp"
             android:layout_marginHorizontal="4dp"
-            android:background="@drawable/indicator_inactive" />
+            android:background="@android:color/darker_gray" />
     </LinearLayout>
 
-    <!-- Feature Image Placeholder -->
+    <!-- Feature Image using standard ImageView with system drawable -->
     <ImageView
         android:id="@+id/featureImage"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="180dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="100dp"
+        android:background="@android:color/transparent"
         android:contentDescription="Feature Image"
+        android:padding="24dp"
+        android:scaleType="fitCenter"
+        android:src="@android:drawable/ic_menu_gallery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_image_placeholder" />
+        app:layout_constraintTop_toBottomOf="@id/indicatorContainer"
+        app:tint="@android:color/white" />
 
-    <!-- Feature Title -->
+    <!-- Feature Title with standard TextView -->
     <TextView
         android:id="@+id/featureTitle"
         android:layout_width="wrap_content"
@@ -69,22 +76,41 @@
         android:layout_marginTop="32dp"
         android:text="Feature 1"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/featureImage" />
 
-    <!-- Next Button -->
+    <!-- Feature Description -->
+    <TextView
+        android:id="@+id/featureDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="center"
+        android:text="Discover amazing gaming features with our app."
+        android:textColor="#CCFFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/featureTitle" />
+
+    <!-- Next Button with standard Material Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/nextButton"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:layout_marginHorizontal="60dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#6A1B9A"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@android:color/holo_purple"
         android:text="Next"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
+        android:textSize="18sp"
         app:cornerRadius="28dp"
         app:layout_constraintBottom_toTopOf="@id/skipIntroText"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,18 +121,22 @@
         android:id="@+id/skipIntroText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:padding="8dp"
+        android:layout_marginBottom="48dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="12dp"
         android:text="Skip Intro"
         android:textColor="@android:color/white"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Bottom line indicator -->
+    <!-- Bottom line indicator using standard View -->
     <View
         android:id="@+id/bottomLine"
-        android:layout_width="40dp"
+        android:layout_width="80dp"
         android:layout_height="4dp"
         android:layout_marginBottom="16dp"
         android:background="@android:color/white"
