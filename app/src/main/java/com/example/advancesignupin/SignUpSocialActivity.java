@@ -2,7 +2,6 @@ package com.example.advancesignupin;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class SignUpSocialActivity extends AppCompatActivity {
 
@@ -22,11 +24,15 @@ public class SignUpSocialActivity extends AppCompatActivity {
     private TextView termsOfServiceLink;
     private TextView privacyPolicyLink;
     private TextView loginLink;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_social);
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
         // Initialize views
         usernameInput = findViewById(R.id.usernameInput);
@@ -38,8 +44,12 @@ public class SignUpSocialActivity extends AppCompatActivity {
         loginLink = findViewById(R.id.loginLink);
         ImageButton backButton = findViewById(R.id.backButton);
 
-        // Get email from Intent
-        String email = getIntent().getStringExtra("EMAIL");
+        // Get email from Intent or FirebaseUser
+        FirebaseUser user = mAuth.getCurrentUser();
+        final String email =
+                (getIntent().getStringExtra("EMAIL") != null && !getIntent().getStringExtra("EMAIL").isEmpty())
+                        ? getIntent().getStringExtra("EMAIL")
+                        : (user != null && user.getEmail() != null ? user.getEmail() : null);
         if (email != null && !email.isEmpty()) {
             emailDisplay.setText(email);
         }
@@ -52,13 +62,7 @@ public class SignUpSocialActivity extends AppCompatActivity {
             // Validate username and proceed to verification screen
             if (validateUsername()) {
                 String username = usernameInput.getText().toString().trim();
-                String emailText = emailDisplay.getText().toString().trim();
-
-                // Navigate to verification screen
-                Intent intent = new Intent(SignUpSocialActivity.this, SignUpVerificationActivity.class);
-                intent.putExtra("EMAIL", emailText);
-                intent.putExtra("USERNAME", username);
-                startActivity(intent);
+                updateDisplayNameAndContinue(username, email);
             }
         });
 
@@ -92,5 +96,30 @@ public class SignUpSocialActivity extends AppCompatActivity {
             usernameInputLayout.setError(null);
             return true;
         }
+    }
+
+    private void updateDisplayNameAndContinue(String username, String email) {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null) {
+            Toast.makeText(this, "No user logged in!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // Lưu username vào displayName
+        user.updateProfile(new UserProfileChangeRequest.Builder()
+                        .setDisplayName(username)
+                        .build())
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(this, "Sign up success!", Toast.LENGTH_SHORT).show();
+                        // Chuyển sang màn hình xác minh hoặc màn hình chính
+                        Intent intent = new Intent(this, SignUpVerificationActivity.class);
+                        intent.putExtra("EMAIL", email);
+                        intent.putExtra("USERNAME", username);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(this, "Update username failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
