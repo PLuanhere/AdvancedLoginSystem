@@ -16,6 +16,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+
 public class SignUpActivity extends AppCompatActivity {
 
     private EditText emailInput;
@@ -30,12 +34,17 @@ public class SignUpActivity extends AppCompatActivity {
     private Button continueButton;
     private TextView loginLink;
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup1);
 
-        // Initialize views@
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
+        // Initialize views
         emailInput = findViewById(R.id.emailInput);
         displayNameInput = findViewById(R.id.displayNameInput);
         displayNameCounter = findViewById(R.id.displayNameCounter);
@@ -69,10 +78,31 @@ public class SignUpActivity extends AppCompatActivity {
 
         continueButton.setOnClickListener(v -> {
             if (validateInputs()) {
-                // Navigate to verification screen
-                Intent intent = new Intent(SignUpActivity.this, SignUpVerificationActivity.class);
-                intent.putExtra("EMAIL", emailInput.getText().toString().trim());
-                startActivity(intent);
+                String email = emailInput.getText().toString().trim();
+                String password = passwordInput.getText().toString();
+                String displayName = displayNameInput.getText().toString().trim();
+
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(this, task -> {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                if (user != null) {
+                                    user.updateProfile(new UserProfileChangeRequest.Builder()
+                                            .setDisplayName(displayName)
+                                            .build()
+                                    ).addOnCompleteListener(profileTask -> {
+                                        user.sendEmailVerification();
+                                        Toast.makeText(SignUpActivity.this, "Đăng ký thành công! Vui lòng kiểm tra email để xác thực.", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(SignUpActivity.this, SignUpVerificationActivity.class);
+                                        intent.putExtra("EMAIL", email);
+                                        startActivity(intent);
+                                        finish();
+                                    });
+                                }
+                            } else {
+                                Toast.makeText(SignUpActivity.this, "Đăng ký thất bại: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        });
             }
         });
 
@@ -87,10 +117,8 @@ public class SignUpActivity extends AppCompatActivity {
     private void setupFocusChangeListener(EditText editText) {
         editText.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                // When focused, use purple outlined background
                 editText.setBackground(getResources().getDrawable(R.drawable.purple_outlined_background));
             } else {
-                // When not focused, use regular input background
                 editText.setBackground(getResources().getDrawable(R.drawable.input_rounded_background));
             }
         });
@@ -104,7 +132,6 @@ public class SignUpActivity extends AppCompatActivity {
             passwordField.setTransformationMethod(PasswordTransformationMethod.getInstance());
             toggleIcon.setImageResource(R.drawable.ic_visibility);
         }
-        // Place cursor at the end of the text
         passwordField.setSelection(passwordField.getText().length());
     }
 
@@ -113,9 +140,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Not needed
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
